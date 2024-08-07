@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="YourCustomStyle">
+        <attr name="background_color" format="color" />
+    </declare-styleable>
+</resources>

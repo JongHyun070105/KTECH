@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <!-- Login TextView -->
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Login"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <!-- Icon ImageView -->
+    <ImageView
+        android:id="@+id/login_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/login_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/icon" />
+
+    <!-- Zero Food Waste TextView -->
+    <TextView
+        android:id="@+id/zero_food_waste_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <!-- School Label -->
+    <TextView
+        android:id="@+id/school_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/zero_food_waste_text"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="30dp"
+        android:text="고등학교"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- School Input EditText -->
+
+    <!-- Login Button -->
+    <EditText
+        android:id="@+id/school_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/school_label"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edittext_background"
+        android:hint="고등학교를 입력해주세요"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textColorHint="#878787"
+        android:textSize="16sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/school_input"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:paddingStart="80dp"
+        android:paddingEnd="80dp"
+        android:backgroundTint="#222831"
+        android:text="Login"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

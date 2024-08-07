@@ -1,0 +1,15 @@
+<resources>
+    <color name="primary_color">#00ADB5</color>
+    <color name="secondary_color">#393E46</color>
+    <color name="background_color">#FFFFFF</color>
+    <color name="navigation_item_icon_color">#393E46</color>
+    <color name="navigation_item_text_color">#393E46</color>
+    <color name="bottom_nav_color">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="colorPrimary">#00ADB5</color>
+    <color name="blue">#0000FF</color>
+    <color name="red">#FF0000</color>
+    <color name="primary_dark_color">#000000</color>
+    <color name="accent_color">#ffffff</color>
+</resources>

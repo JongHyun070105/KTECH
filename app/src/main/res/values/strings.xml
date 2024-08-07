@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Zero Food Waste</string>
+    <string name="title_home">Home</string>
+    <string name="title_grid">Grid</string>
+</resources>

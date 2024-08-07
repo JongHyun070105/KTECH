@@ -1,0 +1,10 @@
+
+‘
+java:S2095F"IUse try-with-resources or close this "InputStream" in a "finally" clause.(Ûì—ëıÿÿÿÿ8¡°şº’2J$2783dbbe-8957-4b5d-840f-ba59abed870f
+’
+java:S2674I"JCheck the return value of the "read" call to see how many bytes were read.(ë¥áïøÿÿÿÿ8¯°şº’2J$8f501fd5-871c-4b34-ac62-b685df4fc1d6
+|
+java:S4719K"9Replace charset name argument with StandardCharsets.UTF_8(×İı8¶°şº’2J$d7ef1a63-9f42-4646-bc23-c12a7959b75b
+x
+java:S1128
+"0Remove this unused import 'org.json.JSONObject'.(œÖ´üşÿÿÿÿ8©Íˆ»’2J$105ddac1-8613-41a0-b6d0-50a2e706b3b9

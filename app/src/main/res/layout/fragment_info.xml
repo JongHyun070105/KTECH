@@ -1,0 +1,213 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp">
+
+        <!-- Icon ImageView -->
+        <ImageView
+            android:id="@+id/login_image"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon" />
+
+        <!-- Zero Food Waste TextView -->
+        <TextView
+            android:id="@+id/zero_food_waste_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Zero Food Waste"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="120dp"> <!-- Adjusted margin for entire LinearLayout -->
+
+        <TextView
+            android:id="@+id/school_name_text"
+            android:layout_marginTop="150dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="학교명 : "
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="sans-serif-medium"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="#222831"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
+            android:text="LogOut"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Social Media Icons and Texts -->
+    <LinearLayout
+        android:id="@+id/social_media_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"> <!-- Adjusted margin for entire LinearLayout -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+            <ImageView
+                android:id="@+id/instagram_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_instagram"
+                android:contentDescription="박종현" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="박종현"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginTop="4dp" /> <!-- Adjusted margin for TextView -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+            <ImageView
+                android:id="@+id/facebook_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_instagram"
+                android:contentDescription="박태영" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="박태영"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginTop="4dp" /> <!-- Adjusted margin for TextView -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+            <ImageView
+                android:id="@+id/twitter_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_instagram"
+                android:contentDescription="신재우" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="신재우"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginTop="4dp" /> <!-- Adjusted margin for TextView -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+            <ImageView
+                android:id="@+id/linkedin_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_instagram"
+                android:contentDescription="정환희" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="정환희"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginTop="4dp" /> <!-- Adjusted margin for TextView -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+            <ImageView
+                android:id="@+id/youtube_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_instagram"
+                android:contentDescription="주시우" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주시우"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginTop="4dp" /> <!-- Adjusted margin for TextView -->
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Made By TextView -->
+    <TextView
+        android:id="@+id/made_by_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Made by SERINI"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_marginBottom="10dp"/>
+</RelativeLayout>

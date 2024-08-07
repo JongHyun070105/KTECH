@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".SplashActivity">
+
+    <!-- Icon and Text Container -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true">
+
+        <!-- Icon ImageView -->
+        <ImageView
+            android:id="@+id/splash_icon"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/icon" />
+
+        <!-- Zero Food Waste TextView -->
+        <TextView
+            android:id="@+id/zero_food_waste_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Zero Food Waste"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <!-- Made By TextView -->
+    <TextView
+        android:id="@+id/made_by_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Made by SERINI"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="16dp"/>
+</RelativeLayout>
