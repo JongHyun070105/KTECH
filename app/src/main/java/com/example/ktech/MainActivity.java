@@ -28,14 +28,13 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            int id = item.getItemId();
-            if (id == R.id.navigation_home) {
+            if (item.getItemId() == R.id.navigation_home) {
                 viewPager.setCurrentItem(0);
                 return true;
-            } else if (id == R.id.navigation_grid) {
+            } else if (item.getItemId() == R.id.navigation_grid) {
                 viewPager.setCurrentItem(1);
                 return true;
-            } else if (id == R.id.navigation_info) {
+            } else if (item.getItemId() == R.id.navigation_info) {
                 viewPager.setCurrentItem(2);
                 return true;
             }
@@ -89,6 +88,9 @@ public class MainActivity extends FragmentActivity {
         if (savedInstanceState == null) {
             viewPager.setCurrentItem(0);
         }
+
+        // 알람 설정
+        NotificationReceiver.setDailyAlarms(this);
     }
 
     private boolean isLoggedIn() {
