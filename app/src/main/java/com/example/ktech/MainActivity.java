@@ -2,15 +2,21 @@ package com.example.ktech;
 
 import static com.example.ktech.LoginActivity.KEY_SCHOOL_NAME;
 
+import android.Manifest;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -19,6 +25,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Locale;
 
 public class MainActivity extends FragmentActivity {
+    private static final int REQUEST_CODE_SCHEDULE_EXACT_ALARM = 100;
+
     private SharedPreferences sharedPreferences;
     private ViewPager2 viewPager;
     private FragmentAdapter fragmentAdapter;
@@ -28,17 +36,15 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if (item.getItemId() == R.id.navigation_home) {
+            int id = item.getItemId();
+            if (id == R.id.navigation_home) {
                 viewPager.setCurrentItem(0);
-                return true;
-            } else if (item.getItemId() == R.id.navigation_grid) {
+            } else if (id == R.id.navigation_grid) {
                 viewPager.setCurrentItem(1);
-                return true;
-            } else if (item.getItemId() == R.id.navigation_info) {
+            } else if (id == R.id.navigation_info) {
                 viewPager.setCurrentItem(2);
-                return true;
             }
-            return false;
+            return true;
         }
     };
 
@@ -89,8 +95,8 @@ public class MainActivity extends FragmentActivity {
             viewPager.setCurrentItem(0);
         }
 
-        // 알람 설정
-        NotificationReceiver.setDailyAlarms(this);
+        // 권한 확인 및 요청
+        checkAndRequestExactAlarmPermission();
     }
 
     private boolean isLoggedIn() {
@@ -102,6 +108,32 @@ public class MainActivity extends FragmentActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void checkAndRequestExactAlarmPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!getSystemService(AlarmManager.class).canScheduleExactAlarms()) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivityForResult(intent, REQUEST_CODE_SCHEDULE_EXACT_ALARM);
+            } else {
+                NotificationReceiver.setDailyAlarms(this);
+            }
+        } else {
+            NotificationReceiver.setDailyAlarms(this);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_SCHEDULE_EXACT_ALARM) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                NotificationReceiver.setDailyAlarms(this);
+            } else {
+                // 권한이 거부된 경우 사용자에게 알림
+                Toast.makeText(this, "정확한 알람을 설정하려면 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void logout() {

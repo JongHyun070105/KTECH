@@ -3,15 +3,15 @@ package com.example.ktech;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class MealWidgetProvider extends AppWidgetProvider {
 
@@ -57,10 +57,13 @@ public class MealWidgetProvider extends AppWidgetProvider {
                     views.setTextViewText(context.getResources().getIdentifier("widget_meal_text" + i, "id", context.getPackageName()), "");
                 }
             } else {
-                String[] menuItems = menu.split("\n");
+                Random random = new Random();
+                String[] menuItems = menu.replaceAll("<|>", "").split("\n");
                 for (int i = 0; i < 6; i++) {
                     String text = (i < menuItems.length) ? menuItems[i] : "";
+                    int color = Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256));
                     views.setTextViewText(context.getResources().getIdentifier("widget_meal_text" + (i + 1), "id", context.getPackageName()), text);
+                    views.setInt(context.getResources().getIdentifier("widget_meal_icon" + (i + 1), "id", context.getPackageName()), "setColorFilter", color);
                 }
             }
 

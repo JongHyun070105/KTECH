@@ -1,19 +1,16 @@
 package com.example.ktech;
 
-import android.content.res.Resources;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -46,12 +43,11 @@ public class GridFragment extends Fragment {
                 if (isWeekendOrHoliday(selectedDate) || !dbHelper.hasMenuForDate(selectedDateString)) {
                     Toast.makeText(getContext(), "급식이 없는 날입니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    MealFragment mealFragment = MealFragment.newInstance(year, month, dayOfMonth);
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-                    transaction.replace(R.id.fragment_container, mealFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    Intent intent = new Intent(getActivity(), MealActivity.class);
+                    intent.putExtra("year", year);
+                    intent.putExtra("month", month);
+                    intent.putExtra("day", dayOfMonth);
+                    startActivity(intent);
                 }
             }
         });

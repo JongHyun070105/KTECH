@@ -40,6 +40,12 @@ public class HomeFragment extends Fragment {
 
         // Get today's menu from the database
         String todayMenu = dbHelper.getMenuForDate(todayDate);
+
+        // Remove < and > from the menu text
+        if (todayMenu != null) {
+            todayMenu = todayMenu.replaceAll("<|>", "");
+        }
+
         menuText.setText(todayMenu);
 
         return view;

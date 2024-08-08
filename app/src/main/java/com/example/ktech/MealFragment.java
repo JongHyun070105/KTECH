@@ -3,7 +3,6 @@ package com.example.ktech;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -83,12 +82,7 @@ public class MealFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
-                GridFragment fragmentGrid = new GridFragment();
-                transaction.replace(R.id.fragment_container, fragmentGrid);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                getActivity().finish(); // Activity 종료
             }
         });
 
@@ -117,6 +111,7 @@ public class MealFragment extends Fragment {
         TextView menuTextView = view.findViewById(R.id.menu_text);
         if (cursor.moveToFirst()) {
             String menu = cursor.getString(cursor.getColumnIndexOrThrow("menu"));
+            menu = menu.replaceAll("<|>", ""); // 메뉴 텍스트에서 <> 제거
             menuTextView.setText(menu);
         } else {
             menuTextView.setText("급식 데이터가 없습니다");
@@ -128,7 +123,7 @@ public class MealFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            getFragmentManager().popBackStack();
+            getActivity().finish(); // Activity 종료
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -152,10 +147,8 @@ public class MealFragment extends Fragment {
                 if (Math.abs(diffX) > Math.abs(diffY)) {
                     if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffX > 0) {
-                            Log.d("Gesture", "onSwipeRight");
                             onSwipeRight();
                         } else {
-                            Log.d("Gesture", "onSwipeLeft");
                             onSwipeLeft();
                         }
                         result = true;
@@ -198,7 +191,7 @@ public class MealFragment extends Fragment {
 
     private void updateDate(int dayOffset) {
         MealFragment newFragment = MealFragment.newInstance(year, month, day);
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         if (dayOffset > 0) {
             transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
         } else {

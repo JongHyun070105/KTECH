@@ -1,5 +1,6 @@
 package com.example.ktech;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,12 +10,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import java.util.Calendar;
 
 public class NotificationReceiver extends BroadcastReceiver {
     private static final String CHANNEL_ID = "meal_notification_channel";
+    private static final String TAG = "NotificationReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -30,6 +33,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         String menu = dbHelper.getMenuForDate(date);
         if (menu.isEmpty()) {
+            Log.d(TAG, "No meal data available for today.");
             return; // 급식 데이터가 없는 경우 알림을 보내지 않음
         }
 
@@ -51,16 +55,17 @@ public class NotificationReceiver extends BroadcastReceiver {
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_food)
+                .setSmallIcon(R.drawable.ic_food) // 올바른 아이콘 설정
                 .setContentTitle("오늘의 급식 🍱")
                 .setContentText(notificationText)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationText))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // 우선순위 높게 설정
                 .setContentIntent(notificationPendingIntent)
                 .setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, builder.build());
+        Log.d(TAG, "Notification sent: " + notificationText);
     }
 
     private String getWeeklyOrder(int weekOfYear) {
@@ -87,6 +92,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     public static void setDailyAlarms(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -95,17 +101,30 @@ public class NotificationReceiver extends BroadcastReceiver {
         calendar7AM.set(Calendar.MINUTE, 0);
         calendar7AM.set(Calendar.SECOND, 0);
         calendar7AM.set(Calendar.MILLISECOND, 0);
+        if (calendar7AM.before(Calendar.getInstance())) {
+            calendar7AM.add(Calendar.DAY_OF_MONTH, 1);
+        }
 
         Calendar calendar12PM = Calendar.getInstance();
         calendar12PM.set(Calendar.HOUR_OF_DAY, 12);
         calendar12PM.set(Calendar.MINUTE, 0);
         calendar12PM.set(Calendar.SECOND, 0);
         calendar12PM.set(Calendar.MILLISECOND, 0);
+        if (calendar12PM.before(Calendar.getInstance())) {
+            calendar12PM.add(Calendar.DAY_OF_MONTH, 1);
+        }
 
         PendingIntent alarmIntent7AM = PendingIntent.getBroadcast(context, 0, new Intent(context, NotificationReceiver.class).setAction("com.example.ktech.SEND_NOTIFICATION"), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         PendingIntent alarmIntent12PM = PendingIntent.getBroadcast(context, 1, new Intent(context, NotificationReceiver.class).setAction("com.example.ktech.SEND_NOTIFICATION"), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar7AM.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent7AM);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar12PM.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent12PM);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar7AM.getTimeInMillis(), alarmIntent7AM);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar12PM.getTimeInMillis(), alarmIntent12PM);
+        } else {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar7AM.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent7AM);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar12PM.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent12PM);
+        }
+
+        Log.d(TAG, "Alarms set for 7AM and 12PM");
     }
 }

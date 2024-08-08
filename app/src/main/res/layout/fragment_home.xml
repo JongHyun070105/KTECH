@@ -47,6 +47,7 @@
             android:textColor="@color/black"
             android:textAlignment="center"
             android:layout_gravity="center"
+            android:textStyle="bold"
             app:background_color="@color/bottom_nav_color"/>
     </LinearLayout>
 </LinearLayout>
