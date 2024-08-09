@@ -1,9 +1,17 @@
 
 k
-java:S1604"(Make this anonymous inner class a lambda(êæ¥©8†Á¸’2J$de2e8c9f-092a-470e-8769-a32809a4a415
+java:S1604&"(Make this anonymous inner class a lambda(êæ¥©8ÍÕÓ¬“2J$715b5a1e-58e7-4bab-8a88-b99dd89f052a
+¡
+java:S1450#"^Remove the "fragmentAdapter" field and declare it as a local variable in the relevant methods.(ö—ß‹8ñÕÓ¬“2J$f0c310b8-169d-4756-b35f-009ef250d267
 
-java:S1874"HRemove this use of "OnNavigationItemSelectedListener"; it is deprecated.(éþÿèúÿÿÿÿ8¤Á¸’2J$8e6ebe53-d8a4-41d1-a89a-58c273c10a87
+java:S1874%"HRemove this use of "OnNavigationItemSelectedListener"; it is deprecated.(éþÿèúÿÿÿÿ8ûÕÓ¬“2J$8563c4ca-9c39-42d1-997c-167f8eeabea8
 ƒ
-java:S1874+";Remove this use of "updateConfiguration"; it is deprecated.(˜•µÊûÿÿÿÿ8³Á¸’2J$db850035-1f7f-4659-8b8e-498d006121df
+java:S1874>";Remove this use of "updateConfiguration"; it is deprecated.(˜•µÊûÿÿÿÿ8‡ÖÓ¬“2J$576291a5-1658-43e6-be57-e1ec244e3989
 “
-java:S18740"KRemove this use of "setOnNavigationItemSelectedListener"; it is deprecated.(©…Òþÿÿÿÿ8óœ“¸’2J$73c16228-aa1f-4694-baa8-e8ef649ff53c
+java:S1874N"KRemove this use of "setOnNavigationItemSelectedListener"; it is deprecated.(©…Òþÿÿÿÿ8ˆÖÓ¬“2J$0588b921-5e7d-444a-b533-9eb16acf8c6f
+‚
+java:S1874€">Remove this use of "startActivityForResult"; it is deprecated.(‡žÚ¼8–ÖÓ¬“2J$d2347415-fafe-403a-9976-4b9763214fbe
+“
+java:S1874Š"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(Ó»×¶þÿÿÿÿ8—ÖÓ¬“2J$88ddbd25-bbb8-4077-9d9b-592e980dd56a
+t
+java:S1144¨"+Remove this unused private "logout" method.(¸Ëö­þÿÿÿÿ8¡ÖÓ¬“2J$4aefda37-29fd-4d89-823c-dffa55d4565e

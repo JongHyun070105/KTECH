@@ -2,21 +2,23 @@ package com.example.ktech;
 
 import static com.example.ktech.LoginActivity.KEY_SCHOOL_NAME;
 
-import android.Manifest;
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -26,6 +28,7 @@ import java.util.Locale;
 
 public class MainActivity extends FragmentActivity {
     private static final int REQUEST_CODE_SCHEDULE_EXACT_ALARM = 100;
+    private static final int REQUEST_CODE_POST_NOTIFICATIONS = 101;
 
     private SharedPreferences sharedPreferences;
     private ViewPager2 viewPager;
@@ -52,7 +55,6 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 로케일을 한국어로 설정
         Locale locale = new Locale("ko");
         Locale.setDefault(locale);
         android.content.res.Configuration config = new android.content.res.Configuration();
@@ -61,7 +63,6 @@ public class MainActivity extends FragmentActivity {
 
         sharedPreferences = getSharedPreferences(LoginActivity.PREFS_NAME, Context.MODE_PRIVATE);
 
-        // Check if the user is already logged in
         if (!isLoggedIn()) {
             navigateToLoginActivity();
             return;
@@ -90,13 +91,11 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        // Set default fragment
         if (savedInstanceState == null) {
             viewPager.setCurrentItem(0);
         }
 
-        // 권한 확인 및 요청
-        checkAndRequestExactAlarmPermission();
+        checkAndRequestNotificationPermission();
     }
 
     private boolean isLoggedIn() {
@@ -110,10 +109,22 @@ public class MainActivity extends FragmentActivity {
         finish();
     }
 
+    private void checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                ActivityCompat.requestPermissions(this, new String[]{"android.permission.POST_NOTIFICATIONS"}, REQUEST_CODE_POST_NOTIFICATIONS);
+            } else {
+                checkAndRequestExactAlarmPermission();
+            }
+        } else {
+            checkAndRequestExactAlarmPermission();
+        }
+    }
+
     private void checkAndRequestExactAlarmPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!getSystemService(AlarmManager.class).canScheduleExactAlarms()) {
-                Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                 startActivityForResult(intent, REQUEST_CODE_SCHEDULE_EXACT_ALARM);
             } else {
                 NotificationReceiver.setDailyAlarms(this);
@@ -126,14 +137,32 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_SCHEDULE_EXACT_ALARM) {
+        if (requestCode == REQUEST_CODE_POST_NOTIFICATIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                checkAndRequestExactAlarmPermission();
+            } else {
+                showNotificationPermissionDeniedDialog();
+            }
+        } else if (requestCode == REQUEST_CODE_SCHEDULE_EXACT_ALARM) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 NotificationReceiver.setDailyAlarms(this);
             } else {
-                // 권한이 거부된 경우 사용자에게 알림
                 Toast.makeText(this, "정확한 알람을 설정하려면 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void showNotificationPermissionDeniedDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("알림 권한 필요")
+                .setMessage("급식 알림을 보내려면 권한이 필요합니다. 설정에서 알림 권한을 활성화해주세요.")
+                .setPositiveButton("설정으로 이동", (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                            .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                    startActivity(intent);
+                })
+                .setNegativeButton("취소", null)
+                .show();
     }
 
     private void logout() {
@@ -141,7 +170,6 @@ public class MainActivity extends FragmentActivity {
         editor.remove(KEY_SCHOOL_NAME);
         editor.apply();
 
-        // 위젯 업데이트 브로드캐스트 발송
         Intent intent = new Intent(MealWidgetProvider.ACTION_UPDATE_WIDGET);
         sendBroadcast(intent);
 
